@@ -20,15 +20,19 @@ async def poll_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "لطفاً قبل از اولین حضور مرامنامه را مطالعه کرده و عبارت «می‌پذیرم» را ارسال کنید",
         reply_markup=reply_markup
     )
-
 async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+    user = query.from_user
 
+    # ارسال پیام به عنوان پاسخ به پیام کاربر
     await context.bot.send_message(
         chat_id=query.message.chat_id,
-        text="✅️ «می‌پذیرم»"
+        text="✅️ «می‌پذیرم»",
+        reply_to_message_id=query.message.message_id  # جواب دادن به پیام کاربر
     )
+
+    # حذف نوتیفیکیشن دکمه
+    await query.answer() 
 
 app = ApplicationBuilder().token(TOKEN).build()
 
